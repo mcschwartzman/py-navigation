@@ -97,7 +97,7 @@ def driveStraight(speed, distance):
 
 
 #Accepts an angle and makes the robot rotate around it.
-"""def rotate(angle):
+def rotate(angle):
 
     global odom_list
     global pose
@@ -135,53 +135,7 @@ def driveStraight(speed, distance):
             if (angle > 0):
                 spinWheels(.1,-.1,.1)
             else:
-                spinWheels(-.1,.1,.1)"""
-
-#Accepts an angle and makes the robot rotate around it.
-def rotate(angle):
-    global pose
-
-    rob_pos = Twist()
-    #Had to separate out the quaternion because it was geometry_msgs, not transform
-    quaternion = (
-        pose.pose.orientation.x,
-        pose.pose.orientation.y,
-        pose.pose.orientation.z,
-        pose.pose.orientation.w)
-    initeuler = tf.transformations.euler_from_quaternion(quaternion)
-    inityaw = initeuler[2]
-    print inityaw
-    print angle
-
-    there = False
-    while(not there):
-        currquaternion = (
-            pose.pose.orientation.x,
-            pose.pose.orientation.y,
-            pose.pose.orientation.z,
-            pose.pose.orientation.w)
-        curreuler = tf.transformations.euler_from_quaternion(currquaternion)
-        curryaw = curreuler[2]
-        newang = curryaw - inityaw
-        print str(newang) +','+ str(angle)
-        if(angle >= 0):
-            if(newang >= angle):
-                there = True
-                rob_pos.angular.z = 0
-                pub.publish(rob_pos)
-            else:
-                rob_pos.angular.z = .75
-                pub.publish(rob_pos)
-        else:
-            if(newang >= abs(angle)):
-                there = True
-                rob_pos.angular.z = 0
-                pub.publish(rob_pos)
-            else:
-                rob_pos.angular.z = -.75
-                pub.publish(rob_pos)
-
-    print "done angle"
+                spinWheels(-.1,.1,.1)
 
 #This function works the same as rotate how ever it does not publish linear velocities.
 def driveArc(radius, speed, angle):
